@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FadeZone Barbershop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #fff;
+      color: #222;
+    }
+    header {
+      background: #111;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    nav a {
+      color: white;
+      margin-left: 1.5rem;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    nav a:hover {
+      color: #00ff99;
+      transition: 0.3s ease;
+    }
+    .hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                  url('https://images.unsplash.com/photo-1522337660859-02fbefca4702') center/cover no-repeat;
+      color: white;
+      padding: 6rem 2rem;
+      text-align: center;
+    }
+    .hero h2 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .hero a {
+      padding: 0.8rem 2rem;
+      background: #00ff99;
+      color: #000;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+    .section {
+      padding: 3rem 2rem;
+    }
+    .section h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      max-width: 800px;
+      margin: auto;
+    }
+    li {
+      padding: 0.8rem 1rem;
+      margin: 0.5rem 0;
+      background: #f9f9f9;
+      border-left: 5px solid #00ff99;
+    }
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .badge {
+      background: #fff;
+      border: 2px solid #00ff99;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+    .badge:hover {
+      background: #00ff99;
+      color: #000;
+    }
+    footer {
+      background: #000;
+      color: #ccc;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    .social-icons a {
+      margin: 0 0.5rem;
+      color: #ccc;
+      text-decoration: none;
+      font-size: 1.4rem;
+    }
+    .social-icons a:hover {
+      color: #00ff99;
+    }
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+      nav {
+        margin-top: 0.5rem;
+      }
+      nav a {
+        display: block;
+        margin: 0.25rem 0;
+      }
+      .hero h2 {
+        font-size: 2rem;
+      }
+    }
+    html, body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+main {
+  flex: 1;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>FadeZone</h1>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#licenses">Licensing</a>
+      <a href="about.html">About</a>
+      <a href="booknow.html">Book Now</a>
+    </nav>
+  </header>
+  <main>
+  <section class="hero">
+    <h2>Your Style, Our Craft</h2>
+    <p>Clean fades, sharp lines, pro-level grooming. Walk-ins welcome!</p>
+    <a href="booknow.html">Book Now</a>
+  </section>
+
+  <section id="services" class="section">
+    <h2>Haircut Menu</h2>
+    <ul>
+      <li>💈 Classic Cut – $25</li>
+      <li>🎯 Skin Fade – $30</li>
+      <li>🔥 Taper Fade – $28</li>
+      <li>🧔 Beard Trim – $15</li>
+      <li>✂️ Full Grooming (Cut + Beard) – $40</li>
+      <li>👶 Kids Cut – $18</li>
+      <li>🎨 Line-up/Edge-up – $10</li>
+    </ul>
+  </section>
+
+  <section id="licenses" class="section">
+    <h2>Licensed & Certified</h2>
+    <p style="text-align:center; max-width: 600px; margin: auto;">
+      We take professionalism seriously. Our barbers are fully licensed and certified with modern hygiene and grooming standards.
+    </p>
+    <div class="badges" style="margin-top: 2rem;">
+      <div class="badge">💼 State Barber License</div>
+      <div class="badge">🏅 Certified Fade Technician</div>
+      <div class="badge">🧼 Hygiene & Sanitation Training</div>
+      <div class="badge">📚 Ongoing Skill Development</div>
+    </div>
+  </section>
+  </main>
+
+  <footer>
+    <p>© 2025 FadeZone Barbershop | Designed by Rishi Web</p>
+    <div class="social-icons">
+      <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+      <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+    </div>
+  </footer>
+</body>
+</html>

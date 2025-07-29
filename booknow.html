@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book Appointment – FadeZone</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Poppins', sans-serif; margin: 0; background: #fff; color: #222; }
+    header { background: #222; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    a { color: #ffcc00; text-decoration: none; font-weight: 600; }
+    .container { max-width: 800px; margin: auto; padding: 2rem; }
+    h2 { margin-bottom: 1rem; }
+    form { margin-top: 1rem; }
+    input, select, textarea {
+      padding: 0.5rem; width: 100%; margin-bottom: 0.75rem; font-family: inherit;
+    }
+    button {
+      padding: 0.5rem 1rem; background: #222; color: white; border: none; cursor: pointer;
+    }
+    iframe {
+      margin-top: 2rem; width: 100%; height: 300px; border: none;
+    }
+    footer {
+      background: #111; color: #ccc; padding: 1rem; font-size: 0.9rem; text-align: center;
+    }
+    html, body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+main {
+  flex: 1;
+}
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>FadeZone</h1>
+    <a href="index.html">← Back to Home</a>
+  </header>
+<main>
+  <div class="container">
+    <h2>Book an Appointment</h2>
+    <form id="bookingForm">
+      <input type="text" id="name" placeholder="Your Name" required>
+      <input type="email" id="email" placeholder="Your Email" required>
+
+      <label><strong>Choose a Location:</strong></label>
+      <select id="location" required>
+        <option value="">-- Select a location --</option>
+        <option value="Brooklyn, NY">Brooklyn, NY</option>
+        <option value="Manhattan, NY">Manhattan, NY</option>
+        <option value="Queens, NY">Queens, NY</option>
+      </select>
+
+      <label><strong>Select Haircut Type:</strong></label>
+      <select id="service" required>
+        <option value="">-- Select a haircut type --</option>
+        <option value="Classic Cut">💈 Classic Cut – $25</option>
+        <option value="Skin Fade">🎯 Skin Fade – $30</option>
+        <option value="Taper Fade">🔥 Taper Fade – $28</option>
+        <option value="Beard Trim">🧔 Beard Trim – $15</option>
+        <option value="Full Grooming">✂️ Full Grooming – $40</option>
+        <option value="Kids Cut">👶 Kids Cut – $18</option>
+        <option value="Line-up">🎨 Line-up – $10</option>
+      </select>
+
+      <textarea id="notes" placeholder="Preferred Time / Notes" required></textarea>
+      <button type="submit">Submit Booking</button>
+    </form>
+
+    <iframe id="map" src="https://www.google.com/maps?q=Brooklyn+NY&output=embed" allowfullscreen loading="lazy"></iframe>
+  </div>
+  </main>
+
+  <footer>
+    <p>© 2025 FadeZone Barbershop | Designed by Rishi Web</p>
+  </footer>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-firestore-compat.js"></script>
+
+  <!-- EmailJS using modern module -->
+  <script type="module">
+    import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3.11.0/+esm';
+
+    emailjs.init("xKCuFol_CJSHY_6pg"); // ✅ Replace with your EmailJS public key
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFhMFKgMpkqcZG2S2l29XHAjFJos9A_vY",
+      authDomain: "fadezonebookings.firebaseapp.com",
+      projectId: "fadezonebookings",
+      storageBucket: "fadezonebookings.appspot.com",
+      messagingSenderId: "324865497695",
+      appId: "1:324865497695:web:65cd59453b68bbcb4819ea"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const bookingForm = document.getElementById('bookingForm');
+    const mapIframe = document.getElementById('map');
+    const locationSelect = document.getElementById('location');
+    const submitBtn = bookingForm.querySelector('button[type="submit"]');
+
+    // Dynamic map update
+    locationSelect.addEventListener('change', () => {
+      const loc = locationSelect.value;
+      if (loc) {
+        mapIframe.src = `https://www.google.com/maps?q=${encodeURIComponent(loc)}&output=embed`;
+      }
+    });
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    bookingForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const location = locationSelect.value;
+      const service = document.getElementById('service').value;
+      const notes = document.getElementById('notes').value.trim();
+
+      if (!name || !email || !location || !service || !notes) {
+        alert("❌ Please fill in all fields.");
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        alert("❌ Please enter a valid email address.");
+        return;
+      }
+
+      try {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+
+        // Save to Firestore
+        await db.collection('bookings').add({
+          name,
+          email,
+          location,
+          service,
+          notes,
+          createdAt: new Date()
+        });
+
+        // Send Email via EmailJS
+        await emailjs.send('service_fz10dyd', 'template_9tuec6o', {
+          user_email: email,   // must match your EmailJS template
+          user_name: name,
+          service,
+          location,
+          notes
+        });
+
+        alert("✅ Booking submitted and confirmation email sent!");
+        bookingForm.reset();
+        mapIframe.src = '';
+      } catch (error) {
+        console.error("❌ EmailJS error:", error);
+        alert("Booking saved, but email failed to send. Details:\n" + (error?.text || error.message));
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Booking';
+      }
+    });
+  </script>
+</body>
+</html>
